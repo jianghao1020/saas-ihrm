@@ -2,6 +2,7 @@ package com.gitee.ihrm.service;
 
 import com.gitee.ihrm.bean.Company;
 import com.gitee.ihrm.repository.CompanyRepository;
+import com.gitee.ihrm.utils.IdWorker;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,8 +24,56 @@ public class CompanyService {
     @Resource
     private CompanyRepository companyRepository;
 
+    @Resource
+    private IdWorker idWorker;
+
     public List<Company> findAll() {
         return companyRepository.findAll();
+    }
+
+    /**
+     * 保存企业
+     * 1.配置idwork到工程
+     * 2.在service中注入idwork
+     * 3.通过idwork生成id
+     * 4.保存企业
+     */
+    public void save(Company company) {
+        company.setId(idWorker.nextId());
+        // 默认的状态
+        //0：未审核，1：已审核
+        company.setAuditState("0");
+        //0.未激活，1：已激活
+        company.setState(1);
+        companyRepository.save(company);
+    }
+
+    /**
+     * 根据id查询企业
+     */
+    public Company findById(Long id) {
+        return companyRepository.findById(id).get();
+    }
+
+    /**
+     * 删除企业
+     */
+    public void deleteById(Long id) {
+        companyRepository.deleteById(id);
+    }
+
+    /**
+     * 更新企业
+     * 1.参数：Company
+     * 2.根据id查询企业对象
+     * 3.设置修改的属性
+     * 4.调用dao完成更新
+     */
+    public void update(Company company) {
+        Company company1 = companyRepository.findById(company.getId()).get();
+        company1.setName(company.getName());
+        company1.setCompanyPhone(company.getCompanyPhone());
+        companyRepository.save(company1);
     }
 
     /**
@@ -35,7 +84,7 @@ public class CompanyService {
      * @param size     size
      * @return page
      */
-    public Page<Company> findSearch(Map whereMap, int page, int size) {
+    public Page<Company> findSearch(Map<String,Object> whereMap, int page, int size) {
         Specification<Company> specification = createSpecification(whereMap);
         PageRequest pageRequest = PageRequest.of(page - 1, size);
         return companyRepository.findAll(specification, pageRequest);
@@ -47,7 +96,7 @@ public class CompanyService {
      * @param searchMap 查询条件
      * @return specification
      */
-    private Specification<Company> createSpecification(Map searchMap) {
+    private Specification<Company> createSpecification(Map<String,Object> searchMap) {
 
         return (Specification<Company>) (root, query, cb) -> {
             List<Predicate> predicateList = new ArrayList<>();

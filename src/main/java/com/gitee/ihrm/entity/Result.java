@@ -40,4 +40,9 @@ public class Result {
      */
     private Object data;
 
+    public Result(boolean success, Integer code, String message) {
+        this.success = success;
+        this.code = code;
+        this.message = message;
+    }
 }

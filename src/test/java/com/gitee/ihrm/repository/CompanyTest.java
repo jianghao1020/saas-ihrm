@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author jianghao
@@ -31,7 +32,7 @@ class CompanyTest extends IhrmApplicationTests {
     void testSave() {
         Company company = new Company();
         company.setId(idWorker.nextId());
-        company.setName("牛逼的公司");
+        company.setName("牛逼的公司1");
         company.setManagerId("11111111111111");
         company.setState(1);
         company.setBalance(10000000.00);
@@ -48,5 +49,11 @@ class CompanyTest extends IhrmApplicationTests {
     void testSaveForBuilder() {
         Company build = Company.builder().id(idWorker.nextId()).name("牛逼的公司").managerId("A1").state(1).balance(100000000.00).createTime(new Date()).build();
         companyRepository.save(build);
+    }
+
+    @Test
+    void testFindById() {
+        Optional<Company> byId = companyRepository.findById(1197394838769766400L);
+        System.out.println(byId);
     }
 }

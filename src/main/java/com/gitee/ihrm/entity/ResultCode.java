@@ -22,6 +22,9 @@ public enum ResultCode {
     FAIL(false, 10001, "操作失败"),
     UNAUTHENTICATED(false, 10002, "您还未登录"),
     UN_AUTHORISE(false, 10003, "权限不足"),
+    SAVE_SUCCESS(true, 10004, "新增成功"),
+    UPDATE_SUCCESS(true, 10005, "更新成功"),
+    DELETE_SUCCESS(true, 10006, "删除成功"),
     SERVER_ERROR(false, 99999, "抱歉，系统繁忙，请稍后重试！");
 
     /**
