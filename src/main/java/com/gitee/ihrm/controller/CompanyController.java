@@ -5,6 +5,7 @@ import com.gitee.ihrm.entity.Result;
 import com.gitee.ihrm.entity.ResultCode;
 import com.gitee.ihrm.service.CompanyService;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @author jianghao
  * @date 2019/10/23 17:10
  */
+@CrossOrigin
 @RestController
 @RequestMapping(value = "company")
 public class CompanyController {

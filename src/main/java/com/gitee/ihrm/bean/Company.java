@@ -1,5 +1,7 @@
 package com.gitee.ihrm.bean;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +31,7 @@ public class Company implements Serializable {
      * id
      */
     @Id
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
     /**
      * 公司名称
